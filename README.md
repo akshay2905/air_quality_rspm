@@ -37,7 +37,7 @@ Data Visualisation of Air Quality of the clusters of station with respect of RSP
    Grabed Latitude and Longitude of the locations form Google Maps Geocoding API. 
    Added the grabed data to the Dataframe.  
    Cleaned the data by removing some Indentified characters.  
-   Converted the data to Json format which was then converted to geoJSON form.  
+   Converted the data to Json format and then converted to geoJSON form.  
    Wrote the data in geoJSON format to a file.  
    Wrote the javascript code for the map.  
    Voila!!
