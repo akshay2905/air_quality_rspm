@@ -21,12 +21,17 @@ html, body, #map {
     height: 100%;
     width: 100%
 }
+
+
+
+.info { padding: 6px 8px; font: 14px/18px Arial, Helvetica, sans-serif; background: white; background: rgba(255,255,255,0.9); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } .info h4 { margin: 0 0 5px; color: #777; }
+.legend { text-align: left; line-height: 18px; color: #555; } .legend i { width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; }
 	  </style>	
 	
 	</head>
 	<body>
 	
-	<div id="map" ></div>
+	<div id="map" > </div>
 
   <script>
 	  	
@@ -40,59 +45,6 @@ html, body, #map {
 		});
 		
 		
-/*		var map = L.map('map', {
-    center: [20.593684, 78.962880],
-    zoom:  5,
-    layers: [baselayer]
-});
-
-  function popUp(feature, layer) {
-    
-    var popupString = '<div class="popup" style="font-size:1.2em;">';
-   
-                for (var k in feature.properties) {
-                    var v = feature.properties[k];
-
-                    popupString += k + ': ' + v + '<br />';
-                }
-                popupString += '</div>';
-                layer.bindPopup(popupString, {
-                    maxHeight: 200
-                });
-  }
-
-
-  var geojsonLayer = new L.GeoJSON.AJAX("data-air_quality_rspm.json", {onEachFeature:popUp});
-	var overlayMaps = {
-    "Cities": geojsonLayer
-	};
-  
-geojsonLayer.addTo(map);
-L.control.layers(baselayer, overlayMaps).addTo(map);
-	  
-
-	  var my_json;
- $.getJSON('data-air_quality_rspm.json', function(data) {
-           my_json = L.geoJson(data, {
-            pointToLayer: function(feature, latlng) {
-                var smallIcon = new L.Icon({
-     iconSize: [27, 27],
-     iconAnchor: [13, 27],
-     popupAnchor:  [1, -24],
-     
- });
-            
-                return L.marker(latlng, {icon: smallIcon});
-            },
-           onEachFeature: popUp
-           
-         });
-
- my_json.addTo(markers.addTo(map));
- TOC.addOverlay(my_json, "My layer name in TOC");
- map.removeLayer(my_json); 
- });*/
-
 
 
 
@@ -176,37 +128,88 @@ var map = L.map('map',{
         
         
 
-  function popUp(feature, layer) {
-    
-    var popupString = '<div class="popup" style="font-size:1.2em;">';
-            /*
-                for (var k in feature.properties) {
+        var InfoControl = L.Control.extend({
 
-                    var v = feature.properties[k];
-                    
-                    popupString += k + ': ' + v + '<br />';
-                }*/
+        onAdd: function (map) {
+            this._div = L.DomUtil.create('div', 'info');
+            this.update();
+            return this._div;
+        },
 
-                popupString+= " Location"+ " : " + feature.properties.Location + ","+ feature.properties.City+","+feature.properties.State+"<br / >";
+        update: function (props) {
+            this._div.innerHTML = '<h4>Air Quality (<a href="https://www.google.co.in/search?q=Respirable+Suspended+Particulate+Matter&oq=Respirable+Suspended+Particulate+Matter&aqs=chrome..69i57j0j69i61j0l3.747j0j4&sourceid=chrome&es_sm=93&ie=UTF-8#q=what+is+Respirable+Suspended+Particulate+Matter"> RSPM <a>) </h4>' +  (props ?
+                '<b>' + props.Location + '</b> , ' + props.City + ", "+props.State +"<br>" +"Air Quality"+ " : <b>" + props.AirQuality + "</b><br / >"+ "RSPM - Annual average (g/m3)"+ " : <b>" + props.RSPM + "</b><br / >"+ "Percentage - exceedence(24 hourly)"+ " : <b>" + props.percentage + "</b><br / >"+ "Numbers of monitoring days (n)"+ " : <b>" + props.monitoringdays + "</b><br / >"
+                : 'Hover over a Marker');
+        },
 
-                 popupString+= "Numbers of monitoring days (n)"+ " : " + feature.properties.monitoringdays + "<br / >";
+        popUp:function(props,layer){
+            var popupString = '<div class="popup" style="font-size:1.2em;">';
+
+                popupString+= " Location"+ " : " + props.Location + ","+ props.City+","+props.State+"<br / ><br>";
+
+                 popupString+= "Numbers of monitoring days (n)"+ " :<b> " + props.monitoringdays + "</b><br / >";
               
-                popupString+= "RSPM - Annual average (g/m3)"+ " : " + feature.properties.RSPM + "<br / >";
+                popupString+= "RSPM - Annual average (g/m3)"+ " :<b>  " + props.RSPM + "</b><br / >";
 
-                popupString+= "Percentage - exceedence(24 hourly)"+ " : " + feature.properties.percentage + "<br / >";
+                popupString+= "Percentage - exceedence(24 hourly)"+ " :<b> " +props.percentage + "</b><br / >";
 
 
-                popupString+= "Area Type"+ " : " + feature.properties.Type + "<br / >";
+                popupString+= "Area Type"+ " : " +props.Type + "<br / >";
 
-                popupString+= "Air Quality"+ " : " + feature.properties.AirQuality + "<br / >";
+                popupString+= "Air Quality"+ " : " + props.AirQuality + "<br / >";
 
                 popupString += '</div>';
                 layer.bindPopup(popupString, {
                     maxHeight: 200
                 });
-  }
+
+        }
+    });
+        var geojson;
+        var info = new InfoControl();
+        info.addTo(map);
+
+        var baseLayers = {
+            "Base Layer": maplayer,
+            };
+
+    function highlightFeature(e) {
+        var layer = e.target;
+
+        info.update(layer.feature.properties);
+    }
+
+    function onClick(e){
+        var layer=e.target;
+        info.popUp(layer.feature.properties,layer);
+    }
 
 
+        function onEachFeature(feature, layer) {
+        layer.on({
+            mousedown:onClick,
+            mouseover: highlightFeature
+            
+        });
+    }
+
+
+
+
+var legend = L.control({position: 'bottomright'});
+
+legend.onAdd = function (map) {
+
+    var div = L.DomUtil.create('div', 'info legend');
+
+            div.innerHTML +=
+            "Click on the above icon to select the layer of markers.<br><br><b>Brief Description</b> - The map shows the clusters of <br>monitoring station which measure the air quality of the their location.<br> <br>Marker's Color represent the Level of Air Quality. <br><span style='color:black;'><b>Black</b> </span>- Critically Polluted.<br ><span style='color:red;'><b>Red</b> </span>- Highly Polluted. <br ><span style='color:orange;'><b>Orange</b></span> - Moderately Polluted. <br> <span style='color:blue;'><b>Blue</b></span> - Lowly Polluted.<br><br> The Symbols represent the type of location - Industiral ,<br>Residential and Other Areas and Sensitive."  ;
+
+
+    return div;
+};
+
+legend.addTo(map);
 
           var promise = $.getJSON("data-air_quality_rspm.json");
     promise.then(function(data) {
@@ -221,7 +224,7 @@ var map = L.map('map',{
             filter: function(feature, layer) {
                 return feature.properties.Type == "Industrial" && feature.properties.AirQuality =="Critical";
             },
-            onEachFeature:popUp,
+            onEachFeature:onEachFeature,
             pointToLayer: function(feature, latlng) {
                 return L.marker(latlng, {
                     icon: industrial_dangerIcon
@@ -234,7 +237,7 @@ var map = L.map('map',{
             filter: function(feature, layer) {
                 return feature.properties.Type == "Industrial" && feature.properties.AirQuality =="High";
             },
-            onEachFeature:popUp,
+            onEachFeature:onEachFeature,
             pointToLayer: function(feature, latlng) {
                 return L.marker(latlng, {
                     icon: industrial_highIcon
@@ -248,7 +251,7 @@ var map = L.map('map',{
             filter: function(feature, layer) {
                 return feature.properties.Type == "Industrial" && feature.properties.AirQuality =="Moderate";
             },
-            onEachFeature:popUp,
+            onEachFeature:onEachFeature,
             pointToLayer: function(feature, latlng) {
                 return L.marker(latlng, {
                     icon: industrial_modIcon
@@ -261,7 +264,7 @@ var map = L.map('map',{
             filter: function(feature, layer) {
                 return feature.properties.Type == "Industrial" && feature.properties.AirQuality =="Low";
             },
-            onEachFeature:popUp,
+            onEachFeature:onEachFeature,
             pointToLayer: function(feature, latlng) {
                 return L.marker(latlng, {
                     icon: industrial_lowIcon
@@ -276,7 +279,7 @@ var map = L.map('map',{
             filter: function(feature, layer) {
                 return feature.properties.Type != "Sensitive" && feature.properties.Type != "Industrial" && feature.properties.AirQuality == "Critical";
             },
-            onEachFeature:popUp,
+            onEachFeature:onEachFeature,
             pointToLayer: function(feature, latlng) {
                 return L.marker(latlng, {
                     icon: residential_criticalIcon
@@ -289,7 +292,7 @@ var map = L.map('map',{
             filter: function(feature, layer) {
                 return feature.properties.Type != "Sensitive" && feature.properties.Type != "Industrial" && feature.properties.AirQuality == "High";
             },
-            onEachFeature:popUp,
+            onEachFeature:onEachFeature,
             pointToLayer: function(feature, latlng) {
                 return L.marker(latlng, {
                     icon: residential_highIcon
@@ -303,7 +306,7 @@ var map = L.map('map',{
             filter: function(feature, layer) {
                 return feature.properties.Type != "Sensitive" && feature.properties.Type != "Industrial" && feature.properties.AirQuality == "Moderate";
             },
-            onEachFeature:popUp,
+            onEachFeature:onEachFeature,
             pointToLayer: function(feature, latlng) {
                 return L.marker(latlng, {
                     icon: residential_modIcon
@@ -317,7 +320,7 @@ var map = L.map('map',{
             filter: function(feature, layer) {
                 return feature.properties.Type != "Sensitive" && feature.properties.Type != "Industrial" && feature.properties.AirQuality == "Low";
             },
-            onEachFeature:popUp,
+            onEachFeature:onEachFeature,
             pointToLayer: function(feature, latlng) {
                 return L.marker(latlng, {
                     icon: residential_lowIcon
@@ -330,7 +333,7 @@ var map = L.map('map',{
             filter: function(feature, layer) {
                 return feature.properties.Type == "Sensitive" && feature.properties.AirQuality == "High";
             },
-            onEachFeature:popUp,
+            onEachFeature:onEachFeature,
             pointToLayer: function(feature, latlng) {
                 return L.marker(latlng, {
                     icon: sensitive_highIcon
@@ -343,7 +346,7 @@ var map = L.map('map',{
             filter: function(feature, layer) {
                 return feature.properties.Type == "Sensitive" && feature.properties.AirQuality == "Critical";
             },
-            onEachFeature:popUp,
+            onEachFeature:onEachFeature,
             pointToLayer: function(feature, latlng) {
                 return L.marker(latlng, {
                     icon: sensitive_criticalIcon
@@ -356,7 +359,7 @@ var map = L.map('map',{
             filter: function(feature, layer) {
                 return feature.properties.Type == "Sensitive" && feature.properties.AirQuality == "Moderate";
             },
-            onEachFeature:popUp,
+            onEachFeature:onEachFeature,
             pointToLayer: function(feature, latlng) {
                 return L.marker(latlng, {
                     icon: sensitive_modIcon
@@ -387,17 +390,7 @@ var map = L.map('map',{
     
       
 };
-        /*// THIS IS NEW
-        industrial_critical.addTo(map)
-        industrial_high.addTo(map)
-        industrial_mod.addTo(map)
-        sensitive.addTo(map)
-        */
-
-
-        var baseLayers = {
-    		"Base Layer": maplayer,
-    		};
+        
         L.control.layers(baseLayers,overlayMaps).addTo(map);
     });
 
