@@ -30,6 +30,18 @@ Data Visualisation of Air Quality with respect of RSPM in air quality stations u
    
 ### Data Source - www.datagov.in
 
-#### Work that had to be done`
+#### Work that had to be done -   
+   Grabed the Dataset in CSV format.  
+   Loaded the CSV file in a dataframe in Pandas(Python).  
+   Did initial analysis.  
+   Grabed Latitude and Longitude of the locations form Google Maps Geocoding API. 
+   Added the grabed data to the Dataframe.  
+   Cleaned the data by removing some Indentified characters.  
+   Converted the data to Json format which was then converted to geoJSON form.  
+   Wrote the data in geoJSON format to a file.  
+   Wrote the javascript code for the map.  
+   Voila!!
+   
+
 
 
