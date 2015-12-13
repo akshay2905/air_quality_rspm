@@ -7,21 +7,16 @@ Data Visualisation of Air Quality with respect of RSPM in air quality stations u
 
 ####Each area can be identified with a symbol - 
 
-  ⋅⋅⋅Industrial Icon - Industrial Area. ⋅⋅
-
-  ⋅⋅⋅Tree Icon - Sensitive Area. ⋅⋅
-
- ⋅⋅⋅Home Icon - Residential and Other Area. ⋅⋅
+   Industrial Icon - Industrial Area.  
+   Tree Icon - Sensitive Area.  
+   Home Icon - Residential and Other Area.  
 
 #### Markers colors represent the air quality in the area -
 
-Black - Critical Level of RSPM
-
-Red - High Level of RSPM
-
-Orange - Moderate Level of RSPM
-
-Blue - Low level of RSPM
+   Black - Critical Level of RSPM  
+   Red - High Level of RSPM  
+   Orange - Moderate Level of RSPM  
+   Blue - Low level of RSPM
 
 
 ### Data Source - www.datagov.in
