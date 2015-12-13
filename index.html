@@ -1,0 +1,408 @@
+<html>
+	<head>
+	  <title>Air Quality with respect to Respirable Suspended Particulate Matter(RSPM) in air quality stations under NAMP - 2008</title>
+	  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+	  <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+	   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	   <script src="leaflet.ajax.min.js"></script>
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	   <link rel="stylesheet" href="leaflet_awesome_markers.css">
+	   <script src="leaflet_awesome_markers.js"></script>
+	  <style>
+
+	  	
+
+      body {
+    padding: 0;
+    margin: 0;
+}
+html, body, #map {
+    height: 100%;
+    width: 100%
+}
+	  </style>	
+	
+	</head>
+	<body>
+	
+	<div id="map" ></div>
+
+  <script>
+	  	
+
+	  	var maplayer = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ', {
+			maxZoom: 18,
+			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+			id: 'mapbox.streets'
+		});
+		
+		
+/*		var map = L.map('map', {
+    center: [20.593684, 78.962880],
+    zoom:  5,
+    layers: [baselayer]
+});
+
+  function popUp(feature, layer) {
+    
+    var popupString = '<div class="popup" style="font-size:1.2em;">';
+   
+                for (var k in feature.properties) {
+                    var v = feature.properties[k];
+
+                    popupString += k + ': ' + v + '<br />';
+                }
+                popupString += '</div>';
+                layer.bindPopup(popupString, {
+                    maxHeight: 200
+                });
+  }
+
+
+  var geojsonLayer = new L.GeoJSON.AJAX("data-air_quality_rspm.json", {onEachFeature:popUp});
+	var overlayMaps = {
+    "Cities": geojsonLayer
+	};
+  
+geojsonLayer.addTo(map);
+L.control.layers(baselayer, overlayMaps).addTo(map);
+	  
+
+	  var my_json;
+ $.getJSON('data-air_quality_rspm.json', function(data) {
+           my_json = L.geoJson(data, {
+            pointToLayer: function(feature, latlng) {
+                var smallIcon = new L.Icon({
+     iconSize: [27, 27],
+     iconAnchor: [13, 27],
+     popupAnchor:  [1, -24],
+     
+ });
+            
+                return L.marker(latlng, {icon: smallIcon});
+            },
+           onEachFeature: popUp
+           
+         });
+
+ my_json.addTo(markers.addTo(map));
+ TOC.addOverlay(my_json, "My layer name in TOC");
+ map.removeLayer(my_json); 
+ });*/
+
+
+
+
+var industrial_dangerIcon = L.AwesomeMarkers.icon({
+        prefix: 'fa', //font awesome rather than bootstrap
+        markerColor: 'black', // see colors above
+        icon: 'industry' //http://fortawesome.github.io/Font-Awesome/icons/
+    });
+
+
+var industrial_modIcon = L.AwesomeMarkers.icon({
+        prefix: 'fa', //font awesome rather than bootstrap
+        markerColor: 'orange', // see colors above
+        icon: 'industry' //http://fortawesome.github.io/Font-Awesome/icons/
+    });
+
+var industrial_lowIcon = L.AwesomeMarkers.icon({
+        prefix: 'fa', //font awesome rather than bootstrap
+        markerColor: 'blue', // see colors above
+        icon: 'industry' //http://fortawesome.github.io/Font-Awesome/icons/
+    });
+
+var industrial_highIcon = L.AwesomeMarkers.icon({
+        prefix: 'fa', //font awesome rather than bootstrap
+        markerColor: 'red', // see colors above
+        icon: 'industry' //http://fortawesome.github.io/Font-Awesome/icons/
+    });
+
+
+var sensitiveIcon = L.AwesomeMarkers.icon({
+        prefix: 'fa', //font awesome rather than bootstrap
+        markerColor: 'black', // see colors above
+        icon: 'warning' //http://fortawesome.github.io/Font-Awesome/icons/
+    });
+
+var residential_criticalIcon = L.AwesomeMarkers.icon({
+        prefix: 'fa', //font awesome rather than bootstrap
+        markerColor: 'black', // see colors above
+        icon: 'home' //http://fortawesome.github.io/Font-Awesome/icons/
+    });
+
+var residential_highIcon = L.AwesomeMarkers.icon({
+        prefix: 'fa', //font awesome rather than bootstrap
+        markerColor: 'red', // see colors above
+        icon: 'home' //http://fortawesome.github.io/Font-Awesome/icons/
+    });
+
+var residential_modIcon = L.AwesomeMarkers.icon({
+        prefix: 'fa', //font awesome rather than bootstrap
+        markerColor: 'orange', // see colors above
+        icon: 'home' //http://fortawesome.github.io/Font-Awesome/icons/
+    });
+var residential_lowIcon = L.AwesomeMarkers.icon({
+        prefix: 'fa', //font awesome rather than bootstrap
+        markerColor: 'blue', // see colors above
+        icon: 'home' //http://fortawesome.github.io/Font-Awesome/icons/
+    });
+
+var sensitive_criticalIcon = L.AwesomeMarkers.icon({
+        prefix: 'fa', //font awesome rather than bootstrap
+        markerColor: 'black', // see colors above
+        icon: 'tree' //http://fortawesome.github.io/Font-Awesome/icons/
+    });
+
+var sensitive_highIcon = L.AwesomeMarkers.icon({
+        prefix: 'fa', //font awesome rather than bootstrap
+        markerColor: 'red', // see colors above
+        icon: 'tree' //http://fortawesome.github.io/Font-Awesome/icons/
+    });
+var sensitive_modIcon = L.AwesomeMarkers.icon({
+        prefix: 'fa', //font awesome rather than bootstrap
+        markerColor: 'orange', // see colors above
+        icon: 'tree' //http://fortawesome.github.io/Font-Awesome/icons/
+    });
+
+var map = L.map('map',{
+    center: [20.593684, 78.962880],
+    zoom: 6,
+    layers: maplayer
+});
+        
+        
+
+  function popUp(feature, layer) {
+    
+    var popupString = '<div class="popup" style="font-size:1.2em;">';
+            /*
+                for (var k in feature.properties) {
+
+                    var v = feature.properties[k];
+                    
+                    popupString += k + ': ' + v + '<br />';
+                }*/
+
+                popupString+= " Location"+ " : " + feature.properties.Location + ","+ feature.properties.City+","+feature.properties.State+"<br / >";
+
+                 popupString+= "Numbers of monitoring days (n)"+ " : " + feature.properties.monitoringdays + "<br / >";
+              
+                popupString+= "RSPM - Annual average (g/m3)"+ " : " + feature.properties.RSPM + "<br / >";
+
+                popupString+= "Percentage - exceedence(24 hourly)"+ " : " + feature.properties.percentage + "<br / >";
+
+
+                popupString+= "Area Type"+ " : " + feature.properties.Type + "<br / >";
+
+                popupString+= "Air Quality"+ " : " + feature.properties.AirQuality + "<br / >";
+
+                popupString += '</div>';
+                layer.bindPopup(popupString, {
+                    maxHeight: 200
+                });
+  }
+
+
+
+          var promise = $.getJSON("data-air_quality_rspm.json");
+    promise.then(function(data) {
+
+        
+
+
+        var cities = L.geoJson(data);
+        
+        // Industrial and Critical
+        var industrial_critical = L.geoJson(data, {
+            filter: function(feature, layer) {
+                return feature.properties.Type == "Industrial" && feature.properties.AirQuality =="Critical";
+            },
+            onEachFeature:popUp,
+            pointToLayer: function(feature, latlng) {
+                return L.marker(latlng, {
+                    icon: industrial_dangerIcon
+                })
+            }
+        });
+       
+          // Industrial and High
+        var industrial_high = L.geoJson(data, {
+            filter: function(feature, layer) {
+                return feature.properties.Type == "Industrial" && feature.properties.AirQuality =="High";
+            },
+            onEachFeature:popUp,
+            pointToLayer: function(feature, latlng) {
+                return L.marker(latlng, {
+                    icon: industrial_highIcon
+                })
+            }
+        });
+
+
+  		// Industrial and Moderate
+        var industrial_mod = L.geoJson(data, {
+            filter: function(feature, layer) {
+                return feature.properties.Type == "Industrial" && feature.properties.AirQuality =="Moderate";
+            },
+            onEachFeature:popUp,
+            pointToLayer: function(feature, latlng) {
+                return L.marker(latlng, {
+                    icon: industrial_modIcon
+                })
+            }
+        });
+
+        // Industrial and Low
+        var industrial_low = L.geoJson(data, {
+            filter: function(feature, layer) {
+                return feature.properties.Type == "Industrial" && feature.properties.AirQuality =="Low";
+            },
+            onEachFeature:popUp,
+            pointToLayer: function(feature, latlng) {
+                return L.marker(latlng, {
+                    icon: industrial_lowIcon
+                })
+            }
+        });
+
+
+       
+        // Residential Areas and Critical
+        var residential_critical = L.geoJson(data, {
+            filter: function(feature, layer) {
+                return feature.properties.Type != "Sensitive" && feature.properties.Type != "Industrial" && feature.properties.AirQuality == "Critical";
+            },
+            onEachFeature:popUp,
+            pointToLayer: function(feature, latlng) {
+                return L.marker(latlng, {
+                    icon: residential_criticalIcon
+                })
+            }
+        });
+
+		// Residential Areas and High
+        var residential_high = L.geoJson(data, {
+            filter: function(feature, layer) {
+                return feature.properties.Type != "Sensitive" && feature.properties.Type != "Industrial" && feature.properties.AirQuality == "High";
+            },
+            onEachFeature:popUp,
+            pointToLayer: function(feature, latlng) {
+                return L.marker(latlng, {
+                    icon: residential_highIcon
+                })
+            }
+        });
+
+
+		// Residential Areas and Moderate
+        var residential_mod = L.geoJson(data, {
+            filter: function(feature, layer) {
+                return feature.properties.Type != "Sensitive" && feature.properties.Type != "Industrial" && feature.properties.AirQuality == "Moderate";
+            },
+            onEachFeature:popUp,
+            pointToLayer: function(feature, latlng) {
+                return L.marker(latlng, {
+                    icon: residential_modIcon
+                })
+            }
+        });
+
+
+		// Residential Areas and Low
+        var residential_low = L.geoJson(data, {
+            filter: function(feature, layer) {
+                return feature.properties.Type != "Sensitive" && feature.properties.Type != "Industrial" && feature.properties.AirQuality == "Low";
+            },
+            onEachFeature:popUp,
+            pointToLayer: function(feature, latlng) {
+                return L.marker(latlng, {
+                    icon: residential_lowIcon
+                })
+            }
+        });
+
+        // Sensitive and High
+        var sensitive_high = L.geoJson(data, {
+            filter: function(feature, layer) {
+                return feature.properties.Type == "Sensitive" && feature.properties.AirQuality == "High";
+            },
+            onEachFeature:popUp,
+            pointToLayer: function(feature, latlng) {
+                return L.marker(latlng, {
+                    icon: sensitive_highIcon
+                })
+            }
+        });
+
+        // Sensitive and Critical
+        var sensitive_critical = L.geoJson(data, {
+            filter: function(feature, layer) {
+                return feature.properties.Type == "Sensitive" && feature.properties.AirQuality == "Critical";
+            },
+            onEachFeature:popUp,
+            pointToLayer: function(feature, latlng) {
+                return L.marker(latlng, {
+                    icon: sensitive_criticalIcon
+                })
+            }
+        });
+
+        // Sensitive and Critical
+        var sensitive_mod = L.geoJson(data, {
+            filter: function(feature, layer) {
+                return feature.properties.Type == "Sensitive" && feature.properties.AirQuality == "Moderate";
+            },
+            onEachFeature:popUp,
+            pointToLayer: function(feature, latlng) {
+                return L.marker(latlng, {
+                    icon: sensitive_modIcon
+                })
+            }
+        });
+
+        map.fitBounds(cities.getBounds(), {
+            padding: [50, 50]
+        });
+
+
+        var overlayMaps = {
+    "Industrial Areas - Critical": industrial_critical,
+    "Industrial Areas - High": industrial_high,
+    "Industrial Areas - Moderate": industrial_mod,
+  	"Industrial Area - Low": industrial_low,
+  	"Residential/Other Areas - Critical": residential_critical,
+  	"Residential/Other Areas - High": residential_high,
+  	"Residential/Other Areas - Moderate": residential_mod,
+  	"Residential/Other Areas - Low": residential_low,
+  	"Sensitive Area - Critical" : sensitive_critical,
+  	"Sensitive Area - High" : sensitive_high,
+  	"Sensitive Area - Moderate" : sensitive_mod
+  	
+  	
+  	
+    
+      
+};
+        /*// THIS IS NEW
+        industrial_critical.addTo(map)
+        industrial_high.addTo(map)
+        industrial_mod.addTo(map)
+        sensitive.addTo(map)
+        */
+
+
+        var baseLayers = {
+    		"Base Layer": maplayer,
+    		};
+        L.control.layers(baseLayers,overlayMaps).addTo(map);
+    });
+
+
+
+	  </script>
+	</body>
+</html>
