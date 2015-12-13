@@ -3,7 +3,7 @@
 
 
 ## About
-Data Visualisation of Air Quality with respect of RSPM in air quality stations under NAMP for year 2008. The map is layered with air quality stations. The areas are categorised in three section - Industrial , Residential and other areas and Sensitive Areas. 
+Data Visualisation of Air Quality of the clusters of station with respect of RSPM in air quality stations under NAMP for year 2008. The map is layered with clusters of air quality stations. The areas are categorised in three section - Industrial , Residential and other areas and Sensitive Areas. 
 
 ####Each area can be identified with a symbol - 
 
