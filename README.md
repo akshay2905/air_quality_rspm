@@ -18,7 +18,16 @@ Data Visualisation of Air Quality with respect of RSPM in air quality stations u
    Orange - Moderate Level of RSPM  
    Blue - Low level of RSPM
 
+#### The markers have an onclick Feature which genrates a popup containing information of the properties. 
 
+   The list of properites are -  
+   Name of Location  
+   Numbers of monitoring days (n)  
+   RSPM - Annual average (g/m3)  
+   Percentage - exceedence(24 hourly)  
+   Area Type  
+   Air Quality  
+   
 ### Data Source - www.datagov.in
 
 
