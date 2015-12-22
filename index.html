@@ -9,6 +9,8 @@
 	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	   <link rel="stylesheet" href="leaflet_awesome_markers.css">
 	   <script src="leaflet_awesome_markers.js"></script>
+       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	  <style>
 
 	  	
@@ -24,15 +26,97 @@ html, body, #map {
 
 
 
+
 .info { padding: 6px 8px; font: 14px/18px Arial, Helvetica, sans-serif; background: white; background: rgba(255,255,255,0.9); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } .info h4 { margin: 0 0 5px; color: #777; }
 .legend { text-align: left; line-height: 18px; color: #555; } .legend i { width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; }
+
+
+   .modal {
+}
+.vertical-alignment-helper {
+    display:table;
+    height: 100%;
+    width: 100%;
+}
+.vertical-align-center {
+    /* To center vertically */
+    display: table-cell;
+    vertical-align: middle;
+}
+.modal-content {
+   
+    width:inherit;
+    height:inherit;
+    /* To center horizontally */
+    margin: 0 auto;
+    font-size: 17px;
+}
+.modal-dialog{
+  width :85%;
+}
+.launch{
+  position:absolute;
+  margin: :10px 10px;
+  padding: 10px;
+  z-index: 1000000;
+  bottom: 30px;
+
+
+}
+.btn-container{
+  padding: 10px ;
+  margin: 20px;
+}
 	  </style>	
 	
 	</head>
 	<body>
-	
-	<div id="map" > </div>
+	 <div id="map" ><div class="btn-container"><button class="btn btn-primary btn-lg launch" data-toggle="modal" data-target="#myModal">Click here to Understand Map</button></div> </div>
 
+
+  <!-- Button trigger modal -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Launch demo modal</button>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-top">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+
+                    </button>
+                     <h4 class="modal-title" id="myModalLabel"><strong>Map Visualisation </strong>- <b>Air Quality with respect ot RSPM</b></h4>
+
+                </div>
+                                <div class="modal-body">What is the map trying to represent?<br>
+
+                  
+                  => This map shows the Air quality to different areas in India. The air quality is measured with respect to <a href="https://www.google.co.in/search?q=Respirable+Suspended+Particulate+Matter&oq=Respirable+Suspended+Particulate+Matter&aqs=chrome..69i57j0j69i61j0l3.747j0j4&sourceid=chrome&es_sm=93&ie=UTF-8#q=what+is+Respirable+Suspended+Particulate+Matter" target="_blank"> RSPM </a>. High levels of RSPM have been observed to cause lung diseases. <br><br>
+                  
+                  =>Each area can be identified with a symbol -
+                    <ul>
+                    <li>Industrial Icon - Industrial Area.</li>
+                    <li>Tree Icon - Sensitive Area.</li>
+                    <li>Home Icon - Residential and Other Area.</li>
+                    </ul><br>
+                =>Markers colors represent the air quality in the area -
+                    <ul>
+                    <li><span style="color:black;">Black</span> - Critical Level of RSPM</li>
+                    <li><span style="color:red;">Red </span>- High Level of RSPM</li>
+                    <li><span style="color:orange;">Orange </span>- Moderate Level of RSPM</li>
+                    <li><span style="color:blue;">Blue </span>- Low level of RSPM</li>
+                </ul><br><br>
+
+
+                   </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
   <script>
 	  	
 
@@ -122,7 +206,7 @@ var sensitive_modIcon = L.AwesomeMarkers.icon({
 
 var map = L.map('map',{
     center: [20.593684, 78.962880],
-    zoom: 6,
+    zoom: 7,
     layers: maplayer
 });
         
@@ -137,9 +221,9 @@ var map = L.map('map',{
         },
 
         update: function (props) {
-            this._div.innerHTML = '<h4>Air Quality (<a href="https://www.google.co.in/search?q=Respirable+Suspended+Particulate+Matter&oq=Respirable+Suspended+Particulate+Matter&aqs=chrome..69i57j0j69i61j0l3.747j0j4&sourceid=chrome&es_sm=93&ie=UTF-8#q=what+is+Respirable+Suspended+Particulate+Matter"> RSPM <a>) </h4>' +  (props ?
+            this._div.innerHTML = '<h4>Air Quality (<a href="https://www.google.co.in/search?q=Respirable+Suspended+Particulate+Matter&oq=Respirable+Suspended+Particulate+Matter&aqs=chrome..69i57j0j69i61j0l3.747j0j4&sourceid=chrome&es_sm=93&ie=UTF-8#q=what+is+Respirable+Suspended+Particulate+Matter" target="_blank"> RSPM </a>) </h4>' +  (props ?
                 '<b>' + props.Location + '</b> , ' + props.City + ", "+props.State +"<br>" +"Air Quality"+ " : <b>" + props.AirQuality + "</b><br / >"+ "RSPM - Annual average (g/m3)"+ " : <b>" + props.RSPM + "</b><br / >"+ "Percentage - exceedence(24 hourly)"+ " : <b>" + props.percentage + "</b><br / >"+ "Numbers of monitoring days (n)"+ " : <b>" + props.monitoringdays + "</b><br / >"
-                : 'Hover over a Marker');
+                : 'Select a Layer using the below icon');
         },
 
         popUp:function(props,layer){
@@ -203,7 +287,7 @@ legend.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend');
 
             div.innerHTML +=
-            "Click on the above icon to select the layer of markers.<br><br><b>Brief Description</b> - The map shows the clusters of <br>monitoring station which measure the air quality of the their location.<br> <br>Marker's Color represent the Level of Air Quality. <br><span style='color:black;'><b>Black</b> </span>- Critically Polluted.<br ><span style='color:red;'><b>Red</b> </span>- Highly Polluted. <br ><span style='color:orange;'><b>Orange</b></span> - Moderately Polluted. <br> <span style='color:blue;'><b>Blue</b></span> - Lowly Polluted.<br><br> The Symbols represent the type of location - Industiral ,<br>Residential and Other Areas and Sensitive."  ;
+            "Hover over the above icon to select the layer of markers.<br><br>Marker's Color represent the Level of Air Quality. <br><span style='color:black;'><b>Black</b> </span>- Critical level of RSPM.<br ><span style='color:red;'><b>Red</b> </span>- High level of RSPM <br ><span style='color:orange;'><b>Orange</b></span> - Moderate level of RSPM. <br> <span style='color:blue;'><b>Blue</b></span> - Low level of RSPM.<br><br> The Symbols represent the type of location - Industiral ,<br>Residential and Other Areas and Sensitive."  ;
 
 
     return div;
