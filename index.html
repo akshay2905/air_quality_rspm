@@ -206,7 +206,11 @@ var sensitive_modIcon = L.AwesomeMarkers.icon({
 
 var map = L.map('map',{
     center: [20.593684, 78.962880],
+<<<<<<< HEAD
     zoom: 7,
+=======
+    zoom: 5,
+>>>>>>> 58eb244dc5abc9d7b18fa17a3b2bf9e4552e29ea
     layers: maplayer
 });
         
@@ -229,7 +233,7 @@ var map = L.map('map',{
         popUp:function(props,layer){
             var popupString = '<div class="popup" style="font-size:1.2em;">';
 
-                popupString+= " Location"+ " : " + props.Location + ","+ props.City+","+props.State+"<br / ><br>";
+                popupString+= " Location"+ " : " + props.Location + ", "+ props.City+", "+props.State+"<br / ><br>";
 
                  popupString+= "Numbers of monitoring days (n)"+ " :<b> " + props.monitoringdays + "</b><br / >";
               
@@ -287,7 +291,11 @@ legend.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend');
 
             div.innerHTML +=
+<<<<<<< HEAD
             "Hover over the above icon to select the layer of markers.<br><br>Marker's Color represent the Level of Air Quality. <br><span style='color:black;'><b>Black</b> </span>- Critical level of RSPM.<br ><span style='color:red;'><b>Red</b> </span>- High level of RSPM <br ><span style='color:orange;'><b>Orange</b></span> - Moderate level of RSPM. <br> <span style='color:blue;'><b>Blue</b></span> - Low level of RSPM.<br><br> The Symbols represent the type of location - Industiral ,<br>Residential and Other Areas and Sensitive."  ;
+=======
+            "Click on the above icon to select the layer of markers.<br><br><b>Brief Description</b> - The map shows the clusters of <br>monitoring station which measure the air<br> quality of the their location.<br> <br>Marker's Color represent the Level of Air Quality. <br><span style='color:black;'><b>Black</b> </span>- Critically Polluted.<br ><span style='color:red;'><b>Red</b> </span>- Highly Polluted. <br ><span style='color:orange;'><b>Orange</b></span> - Moderately Polluted. <br> <span style='color:blue;'><b>Blue</b></span> - Lowly Polluted.<br><br> The Symbols represent the type of location - Industiral ,<br>Residential and Other Areas and Sensitive."  ;
+>>>>>>> 58eb244dc5abc9d7b18fa17a3b2bf9e4552e29ea
 
 
     return div;
@@ -451,9 +459,6 @@ legend.addTo(map);
             }
         });
 
-        map.fitBounds(cities.getBounds(), {
-            padding: [50, 50]
-        });
 
 
         var overlayMaps = {
